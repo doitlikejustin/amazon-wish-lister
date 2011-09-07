@@ -1,0 +1,2 @@
+Retrieves Amazon Wish List data
+Uses phpQuery (server-side CSS3 selector driven DOM API based on jQuery) to scrape Amazon's Wish List page and exports to JSON, XML, or PHP Array Object.
