@@ -1,9 +1,35 @@
 <?php
 
+/*
+ * Amazon Wish Lister
+ *
+ * URL: http://www.justinscarpetti.com/projects/amazon-wish-lister/
+ * URL: https://github.com/doitlikejustin/amazon-wish-lister
+ * 
+ * Author: Justin Scarpetti
+ * 
+ */
+
 require_once('phpquery.php');
 
-$amazon_id = '37XI10RRD17X2';
-phpQuery::newDocumentFile('http://www.amazon.com/registry/wishlist/' . $amazon_id . '?reveal=unpurchased&filter=all&layout=standard');
+//get the amazon id or force an ID if none is passed
+if(isset($_GET['id'])) $amazon_id = $_GET['id'];
+else $amazon_id = '37XI10RRD17X2';
+
+if($_GET['reveal'] == 'unpurchased') $reveal = 'reveal=unpurchased';
+else if($_GET['reveal'] == 'all') $reveal = 'reveal=all';
+else if($_GET['reveal'] == 'purchased') $reveal = 'reveal=purchased';
+else $reveal = 'reveal=unpurchased';
+
+if($_GET['sort'] == 'date') $sort = 'sort=date-added';
+else if($_GET['sort'] == 'title') $sort = 'sort=universal-title';
+else if($_GET['sort'] == 'price-low') $sort = 'sort=universal-price';
+else if($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
+else if($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
+else if($_GET['sort'] == 'priority') $sort = 'sort=priority';
+else $sort = 'sort=date-added';
+
+phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
 
 $i = 0;
 $items = pq('tbody.itemWrapper');
