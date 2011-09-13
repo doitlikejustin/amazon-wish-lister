@@ -27,11 +27,11 @@ else $reveal = 'reveal=unpurchased';
 //?sort=date
 //sorting options (date, title, price-high, price-low, updated, priority)
 if($_GET['sort'] == 'date') $sort = 'sort=date-added';
+else if($_GET['sort'] == 'priority') $sort = 'sort=priority';
 else if($_GET['sort'] == 'title') $sort = 'sort=universal-title';
 else if($_GET['sort'] == 'price-low') $sort = 'sort=universal-price';
 else if($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
 else if($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
-else if($_GET['sort'] == 'priority') $sort = 'sort=priority';
 else $sort = 'sort=date-added';
 
 phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
