@@ -16,28 +16,28 @@ The rest (how you style it) is up to you. Happy coding.
 
 Amazon ID
 ---------
-`?id=YOUR_AMAZON_ID`
+`?id=YOUR_AMAZON_ID`  
 `?id=37XI10RRD17X2`
 
 Reveal (What to get)
 --------------------
-`?reveal=unpurchased`
-`?reveal=all`
+`?reveal=unpurchased`  
+`?reveal=all`  
 `?reveal=purchased`
 
 Sort
 ----
-`?sort=date`
-`?sort=priority`
-`?sort=title`
-`?sort=price-low (low to high)`
-`?sort=price-high (high to low)`
+`?sort=date`  
+`?sort=priority`  
+`?sort=title`  
+`?sort=price-low (low to high)`  
+`?sort=price-high (high to low)`  
 `?sort=updated`
 
 Output Format
 -------------
-`?format=json`
-`?format=xml`
+`?format=json`  
+`?format=xml`  
 `?format=array`
 
 Example
