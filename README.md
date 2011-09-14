@@ -14,19 +14,16 @@ You just need to add a few parameters to get your wish list. All of the paramete
 
 The rest (how you style it) is up to you. Happy coding.
 
-Amazon ID
----------
+### Amazon ID
 `?id=YOUR_AMAZON_ID`  
 `?id=37XI10RRD17X2`
 
-Reveal (What to get)
---------------------
+### Reveal (What to get)
 `?reveal=unpurchased`  
 `?reveal=all`  
 `?reveal=purchased`
 
-Sort
-----
+### Sort
 `?sort=date`  
 `?sort=priority`  
 `?sort=title`  
@@ -34,14 +31,12 @@ Sort
 `?sort=price-high (high to low)`  
 `?sort=updated`
 
-Output Format
--------------
+### Output Format
 `?format=json`  
 `?format=xml`  
 `?format=array`
 
-Example
--------
+### Example
 `wishlist.php?id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
 
 Support
