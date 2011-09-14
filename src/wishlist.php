@@ -9,7 +9,7 @@
  * Author: Justin Scarpetti
  * 
  */
-
+error_reporting(0);
 require_once('phpquery.php');
 
 //?id=YOUR_AMAZON_ID
@@ -34,7 +34,13 @@ else if($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
 else if($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
 else $sort = 'sort=date-added';
 
-phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
+$contents = phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
+
+if($contents == '')
+{
+	echo('ERROR');
+	die();
+};
 
 $i = 0;
 $items = pq('tbody.itemWrapper');
@@ -81,7 +87,7 @@ function xml_ecode($array) {
 
 //?format=json
 //format the wishlist (json, xml, or php array object) defaults to json
-if($_REQUEST['format'] == 'json') { echo json_encode($array); }
+if($_REQUEST['output'] == 'json') { echo json_encode($array); }
 else if($_REQUEST['format'] == 'xml') { echo xml_ecode($array); }
 else if($_REQUEST['format'] == 'array') { print_r($array); }
 else { echo json_encode($array); }
