@@ -7,6 +7,9 @@ Amazon Wish Lister uses [phpQuery](http://code.google.com/p/phpquery/) (server-s
 
 Perfect if you want to host display your wish list on your own website.
 
+Demo Site: [http://www.justinscarpetti.com/projects/amazon-wish-lister/](http://www.justinscarpetti.com/projects/amazon-wish-lister/)
+JSON Output: [http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2](http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2)
+
 How to use
 ==========
 
