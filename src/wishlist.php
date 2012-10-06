@@ -54,7 +54,8 @@ foreach($items as $item)
 		//$array[$i]['array'] = pq($item)->html();
 		$array[$i]['name'] = pq($item)->find('span.productTitle strong a')->html();
 		$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
-		$array[$i]['price'] = pq($item)->find('span.wlPriceBold strong')->html();
+		$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
+		$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
 		$array[$i]['date-added'] = pq($item)->find('span.commentBlock nobr')->html();
 		$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
 		$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();

@@ -76,7 +76,7 @@ function get_item_data($item_type)
 		else { return 0; }
 	}
 	
-	else if($item_type == "price")
+	else if($item_type == "new-price")
 	{
 		if($item_data == '')
 		{
@@ -121,7 +121,7 @@ else
 		echo '</div>'; //end top
 		echo '<div class="bottom">';
 			echo '<img class="picture" src="' . get_item_data("picture") . '" alt="' . get_item_data("item") . ' " title="' . get_item_data("item") . '" />';
-			echo '<div class="price"><span>' . get_item_data("price") . '</span></div>';
+			echo '<div class="price"><span>' . get_item_data("new-price") . '</span></div>';
 			echo '<div class="buy"><a href="' . get_item_data("link") . '">BUY ME</a></div>';
 			echo '<div class="priority"><img src="images/priority-' . get_item_data("priority") . '.png" alt="' . get_item_data("priority") . ' rating" title="' . get_item_data("priority") . ' rating" width="124" height="24" /></div>';
 		echo '</div>'; //end bottom
