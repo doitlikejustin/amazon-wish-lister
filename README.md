@@ -5,10 +5,24 @@ This is a little API to retrieve Amazon Wish List data. There is no official API
 
 Amazon Wish Lister uses [phpQuery](http://code.google.com/p/phpquery/) (server-side CSS3 selector driven DOM API based on jQuery) to scrape Amazon's Wish List page and exports to JSON, XML, or PHP Array Object.
 
-Perfect if you want to host display your wish list on your own website.
+* Scrapes the following from your Amazon Wish List:
+    1. Item name
+    2. Item link
+    3. Price of item when added to wish list
+    4. Current price of item
+    5. Date added to wish list
+    6. Priority (set by you)
+    7. Item rating
+    8. Total ratings
+    9. Comments on item (set by you)
+    10. Picture of item
+* Perfect if you want to host display your wish list on your own website. 
+* Best used if cached, or saved in database.
+* Supports multi-page Amazon Wish Lists as well as Amazon Wish List "Ideas"
+* Return list as JSON, XML, or just dump PHP Array Object.
 
-Demo Site: [http://www.justinscarpetti.com/projects/amazon-wish-lister/](http://www.justinscarpetti.com/projects/amazon-wish-lister/)  
-JSON Output: [http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2](http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2)
+**Demo Site:** [http://www.justinscarpetti.com/projects/amazon-wish-lister/](http://www.justinscarpetti.com/projects/amazon-wish-lister/)  
+**JSON Output:** [http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2](http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2)
 
 How to use
 ==========
