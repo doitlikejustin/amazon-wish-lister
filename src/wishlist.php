@@ -71,6 +71,7 @@ else
 				if($check_if_regular != '')
 				{	
 					//$array[$i]['array'] = pq($item)->html();
+					$array[$i]['num'] = $i + 1;
 					$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE);
 					$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
 					$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
@@ -81,6 +82,7 @@ else
 					$array[$i]['total-ratings'] = pq($item)->find('span.crAvgStars a:nth-child(2)')->html();
 					$array[$i]['comment'] = pq($item)->find('span.commentValueText')->html();
 					$array[$i]['picture'] = pq($item)->find('td.productImage a img')->attr('src');
+					$array[$i]['page'] = $page_num;
 					
 					$i++;
 				}
