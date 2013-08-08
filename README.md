@@ -42,6 +42,30 @@ The rest (how you style it) is up to you. Happy coding.
 ### Example
 `wishlist.php?id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
 
+What it returns
+===============
+
+Below is an exmaple if you had http://amzn.com/B0002FTH66 on your wishlist (item #37 on your wishlist).
+
+    [
+        {
+            "num": 37,
+            "name": "Scotch Box Sealing Tape Dispenser H180, 2 in",
+            "link": "http://www.amazon.com/Scotch-Sealing-Tape-Dispenser-H180/dp/B0002FTH66/ref=wl_it_dp_v_nS_nC/185-8110132-3235609?ie=UTF8&colid=3DR0P4HP87IIJ&coliid=I19JS64ZHWBA5M",
+            "old-price": "$24.09",
+            "new-price": "$19.99",
+            "date-added": "Added June 7, 2012",
+            "priority": "low",
+            "rating": "4.7 out of 5 stars",
+            "total-ratings": "63",
+            "comment": "I like taping stuff",
+            "picture": "http://ecx.images-amazon.com/images/I/41BKbZu836L._SL500_SL135_.jpg",
+            "page": 2
+        }
+    ]
+
+
+
 Support
 =======
 
