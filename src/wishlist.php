@@ -34,38 +34,61 @@ else if($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
 else if($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
 else $sort = 'sort=date-added';
 
-$contents = phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
+$content = phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
+$i = 0;
 
-if($contents == '')
+if($content == '')
 {
 	echo('ERROR');
 	die();
-};
-
-$i = 0;
-$items = pq('tbody.itemWrapper');
-
-foreach($items as $item)
+}
+else
 {
-	$check_if_regular = pq($item)->find('span.commentBlock nobr');	
+	//get all pages
+	$pages = count(pq('.pagDiv .pagPage'));
 	
-	if($check_if_regular != '')
-	{	
-		//$array[$i]['array'] = pq($item)->html();
-		$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE);
-		$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
-		$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
-		$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
-		$array[$i]['date-added'] = pq($item)->find('span.commentBlock nobr')->html();
-		$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
-		$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();
-		$array[$i]['total-ratings'] = pq($item)->find('span.crAvgStars a:nth-child(2)')->html();
-		$array[$i]['comment'] = pq($item)->find('span.commentValueText')->html();
-		$array[$i]['picture'] = pq($item)->find('td.productImage a img')->attr('src');
-
-		$i++;
+	for($page_num=1; $page_num<=$pages; $page_num++)
+	{
+	
+		$contents = phpQuery::newDocumentFile("http://www.amazon.com/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard&page=$page_num");
+		
+		if($contents == '')
+		{
+			echo('ERROR');
+			die();
+		}
+		else
+		{
+			
+			//get all items
+			$items = pq('tbody.itemWrapper');
+		
+			//loop through items
+			foreach($items as $item)
+			{
+				$check_if_regular = pq($item)->find('span.commentBlock nobr');	
+				
+				if($check_if_regular != '')
+				{	
+					//$array[$i]['array'] = pq($item)->html();
+					$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE);
+					$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
+					$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
+					$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
+					$array[$i]['date-added'] = pq($item)->find('span.commentBlock nobr')->html();
+					$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
+					$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();
+					$array[$i]['total-ratings'] = pq($item)->find('span.crAvgStars a:nth-child(2)')->html();
+					$array[$i]['comment'] = pq($item)->find('span.commentValueText')->html();
+					$array[$i]['picture'] = pq($item)->find('td.productImage a img')->attr('src');
+					
+					$i++;
+				}
+			}			
+		}	
 	}
 }
+
 
 //format the xml
 function xml_ecode($array) {
