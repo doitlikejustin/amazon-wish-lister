@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Amazon Wish Lister by doitlikejustin</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Amazon Wish Lister</h1>
+        <h2>Retrieve Amazon Wishlist and output to JSON, XML, or PHP Array Object</h2>
+        <a href="https://github.com/doitlikejustin/amazon-wish-lister" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="amazon-wish-lister" class="anchor" href="#amazon-wish-lister"><span class="octicon octicon-link"></span></a>Amazon Wish Lister</h1>
+
+<p>This is a little API to retrieve Amazon Wish List data. There is no official API, as Amazon shut it down a couple years ago. The only way around that... screen scraping.</p>
+
+<p>Amazon Wish Lister uses <a href="http://code.google.com/p/phpquery/">phpQuery</a> (server-side CSS3 selector driven DOM API based on jQuery) to scrape Amazon's Wish List page and exports to JSON, XML, or PHP Array Object.</p>
+
+<ul>
+<li>Scrapes the following from your Amazon Wish List:
+
+<ol>
+<li>Item name</li>
+<li>Item link</li>
+<li>Price of item when added to wish list</li>
+<li>Current price of item</li>
+<li>Date added to wish list</li>
+<li>Priority (set by you)</li>
+<li>Item rating</li>
+<li>Total ratings</li>
+<li>Comments on item (set by you)</li>
+<li>Picture of item</li>
+</ol>
+</li>
+<li>Perfect if you want to host display your wish list on your own website. </li>
+<li>Best used if cached, or saved in database.</li>
+<li>Supports multi-page Amazon Wish Lists as well as Amazon Wish List "Ideas"</li>
+<li>Return list as JSON, XML, or just dump PHP Array Object.</li>
+</ul><p><strong>Demo Site:</strong> <a href="http://www.justinscarpetti.com/projects/amazon-wish-lister/">http://www.justinscarpetti.com/projects/amazon-wish-lister/</a><br><strong>JSON Output:</strong> <a href="http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2">http://www.justinscarpetti.com/projects/amazon-wish-lister/api/?id=37XI10RRD17X2</a></p>
+
+<h1>
+<a name="how-to-use" class="anchor" href="#how-to-use"><span class="octicon octicon-link"></span></a>How to use</h1>
+
+<p>You just need to add a few parameters to get your wish list. All of the parameters, except for the Amazon ID, will have a default... well the default for the Amazon ID is my Amazon ID, you probably don't want that.</p>
+
+<p>The rest (how you style it) is up to you. Happy coding.</p>
+
+<h3>
+<a name="amazon-id" class="anchor" href="#amazon-id"><span class="octicon octicon-link"></span></a>Amazon ID</h3>
+
+<p><code>?id=YOUR_AMAZON_ID</code><br><code>?id=37XI10RRD17X2</code></p>
+
+<h3>
+<a name="reveal-what-to-get" class="anchor" href="#reveal-what-to-get"><span class="octicon octicon-link"></span></a>Reveal (What to get)</h3>
+
+<p><code>?reveal=unpurchased</code><br><code>?reveal=all</code><br><code>?reveal=purchased</code></p>
+
+<h3>
+<a name="sort" class="anchor" href="#sort"><span class="octicon octicon-link"></span></a>Sort</h3>
+
+<p><code>?sort=date</code><br><code>?sort=priority</code><br><code>?sort=title</code><br><code>?sort=price-low (low to high)</code><br><code>?sort=price-high (high to low)</code><br><code>?sort=updated</code></p>
+
+<h3>
+<a name="output-format" class="anchor" href="#output-format"><span class="octicon octicon-link"></span></a>Output Format</h3>
+
+<p><code>?format=json</code><br><code>?format=xml</code><br><code>?format=array</code></p>
+
+<h3>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h3>
+
+<p><code>wishlist.php?id=37XI10RRD17X2&amp;reveal=all&amp;sort=priority&amp;format=json</code></p>
+
+<h1>
+<a name="what-it-returns" class="anchor" href="#what-it-returns"><span class="octicon octicon-link"></span></a>What it returns</h1>
+
+<p>Below is an exmaple if you had <a href="http://amzn.com/B0002FTH66">http://amzn.com/B0002FTH66</a> on your wishlist (item #37 on your wishlist).</p>
+
+<pre><code>[
+    {
+        "num": 37,
+        "name": "Scotch Box Sealing Tape Dispenser H180, 2 in",
+        "link": "http://www.amazon.com/Scotch-Sealing-Tape-Dispenser-H180/dp/B0002FTH66/ref=wl_it_dp_v_nS_nC/185-8110132-3235609?ie=UTF8&amp;colid=3DR0P4HP87IIJ&amp;coliid=I19JS64ZHWBA5M",
+        "old-price": "$24.09",
+        "new-price": "$19.99",
+        "date-added": "Added June 7, 2012",
+        "priority": "low",
+        "rating": "4.7 out of 5 stars",
+        "total-ratings": "63",
+        "comment": "I like taping stuff",
+        "picture": "http://ecx.images-amazon.com/images/I/41BKbZu836L._SL500_SL135_.jpg",
+        "page": 2
+    }
+]
+</code></pre>
+
+<h1>
+<a name="support" class="anchor" href="#support"><span class="octicon octicon-link"></span></a>Support</h1>
+
+<p><a href="https://github.com/doitlikejustin/amazon-wish-lister/issues">https://github.com/doitlikejustin/amazon-wish-lister/issues</a></p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/doitlikejustin/amazon-wish-lister/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/doitlikejustin/amazon-wish-lister/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/doitlikejustin/amazon-wish-lister"></a> is maintained by <a href="https://github.com/doitlikejustin">doitlikejustin</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-7264121-18");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
