@@ -1,5 +1,6 @@
 Amazon Wish Lister
 ==================
+**GitHub Page: http://doitlikejustin.github.io/amazon-wish-lister/**
 
 This is a little API to retrieve Amazon Wish List data. There is no official API, as Amazon shut it down a couple years ago. The only way around that... screen scraping.
 
