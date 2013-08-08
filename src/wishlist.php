@@ -52,7 +52,7 @@ foreach($items as $item)
 	if($check_if_regular != '')
 	{	
 		//$array[$i]['array'] = pq($item)->html();
-		$array[$i]['name'] = pq($item)->find('span.productTitle strong a')->html();
+		$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html());
 		$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
 		$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
 		$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
