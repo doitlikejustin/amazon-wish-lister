@@ -47,6 +47,9 @@ else
 	//get all pages
 	$pages = count(pq('.pagDiv .pagPage'));
 	
+	//if no "$pages" then only 1 page exists
+	if(empty($pages)) $pages=1;
+	
 	for($page_num=1; $page_num<=$pages; $page_num++)
 	{
 	
