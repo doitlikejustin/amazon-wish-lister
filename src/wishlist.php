@@ -10,6 +10,7 @@
  * 
  */
 error_reporting(0);
+set_time_limit(60);
 require_once('phpquery.php');
 
 //?id=YOUR_AMAZON_ID
