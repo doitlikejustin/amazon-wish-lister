@@ -2,7 +2,7 @@ Amazon Wish Lister
 ==================
 **GitHub Page: http://doitlikejustin.github.io/amazon-wish-lister/**
 
-This is a little API to retrieve Amazon Wish List data. There is no official API, as Amazon shut it down a couple years ago. The only way around that... screen scraping.
+This is a little API to retrieve Amazon Wish List data. There is no official API, as Amazon shut it down a couple years ago. The only way around that... screen scraping. It works with both old and new (beta) Amazon Wish List design.
 
 Amazon Wish Lister uses [phpQuery](http://code.google.com/p/phpquery/) (server-side CSS3 selector driven DOM API based on jQuery) to scrape Amazon's Wish List page and exports to JSON, XML, or PHP Array Object.
 
