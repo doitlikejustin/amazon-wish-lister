@@ -96,8 +96,8 @@ else
 						$array[$i]['num'] = $i + 1;
 						$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE);
 						$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
-						$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
-						$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
+						$array[$i]['old-price'] = pq($item)->find('span.price a-text-strike')->html();
+						$array[$i]['new-price'] = pq($item)->find('span.priceblock_ourprice')->html();
 						$array[$i]['date-added'] = str_replace('Added', '', pq($item)->find('span.commentBlock nobr')->html());
 						$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
 						$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();
