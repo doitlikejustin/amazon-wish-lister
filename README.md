@@ -4,6 +4,8 @@ Amazon Wish Lister
 
 This is a little API to retrieve Amazon Wish List data. There is no official API, as Amazon shut it down a couple years ago. The only way around that... screen scraping. It works with both old and new (beta) Amazon Wish List design.
 
+The following Amazon stores have wishlist functionality - Canada, USA, Brasil, Japan, UK, Germany, France, India, Italy.
+
 Amazon Wish Lister uses [phpQuery](http://code.google.com/p/phpquery/) (server-side CSS3 selector driven DOM API based on jQuery) to scrape Amazon's Wish List page and exports to JSON, XML, or PHP Array Object.
 
 * Scrapes the following from your Amazon Wish List:
@@ -32,6 +34,16 @@ You just need to add a few parameters to get your wish list. All of the paramete
 
 The rest (how you style it) is up to you. Happy coding.
 
+### Amazon Country
+`?tld=AMAZON_COUNTRY`  
+`?tld=co.uk`
+
+Defaults to `com`.  
+
+Tested with: `ca`, `com`, `com.br`, `co.jp`, `co.uk`, `de`, `fr`, `in`, `it`.
+
+The following stores currently do not offer wishlists: `com.au`, `com.mx`, `es`, `nl`.
+
 ### Amazon ID
 `?id=YOUR_AMAZON_ID`  
 `?id=37XI10RRD17X2`
@@ -55,7 +67,7 @@ The rest (how you style it) is up to you. Happy coding.
 `?format=array`
 
 ### Example
-`wishlist.php?id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
+`wishlist.php?tld=com&id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
 
 What it returns
 ===============
