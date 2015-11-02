@@ -124,19 +124,25 @@ else
 					
 					if(!empty($name) && !empty($link))
 					{
-						$total_ratings = pq($item)->find('div[id^="itemInfo_"] div:a-spacing-small:first a.a-link-normal:last')->html();
+						$total_ratings = pq($item)->find('div[id^="itemInfo_"] div.a-row:first div.a-column:first div.a-row:nth-child(2) a.a-link-normal:nth-child(4)')->html();
 						$total_ratings = trim(str_replace(array('(', ')'), '', $total_ratings));
 						$total_ratings = is_numeric($total_ratings) ? $total_ratings : '';
+
+						$rating_class = pq($item)->find('div[id^="itemInfo_"] div.a-row:first div.a-column:first div.a-row:nth-child(2) a.a-link-normal:first i.a-icon:first')->attr("class");
+						$rating_class = explode(" ", $rating_class);
+						$rating_class = end($rating_class);
+						$rating = retrieve_rating($rating_class);
+
 						
 						//$array[$i]['array'] = pq($item)->html();
 						$array[$i]['num'] = $i + 1;
 						$array[$i]['name'] = $name;
 						$array[$i]['link'] = $baseurl . $link;
 						$array[$i]['old-price'] = 'N/A';
-						$array[$i]['new-price'] = trim(pq($item)->find('div.a-spacing-small div.a-row span.a-size-medium.a-color-price')->html());
+						$array[$i]['new-price'] = trim(pq($item)->find('span[id^="itemPrice_"]')->html());
 						$array[$i]['date-added'] = trim(str_replace('Added', '', pq($item)->find('div[id^="itemAction_"] .a-size-small')->html()));
 						$array[$i]['priority'] = trim(pq($item)->find('span[id^="itemPriorityLabel_"]')->html());
-						$array[$i]['rating'] = 'N/A';
+						$array[$i]['rating'] = $rating;
 						$array[$i]['total-ratings'] = $total_ratings;
 						$array[$i]['comment'] = trim(pq($item)->find('span[id^="itemComment_"]')->html());
 						$array[$i]['picture'] = pq($item)->find('div[id^="itemImage_"] img')->attr('src');
@@ -168,6 +174,35 @@ function xml_ecode($array) {
 	} else { $xml = htmlspecialchars($array, ENT_QUOTES); }
 
 	return $xml;
+}
+
+// retrieve rating from rating class
+function retrieve_rating($rating_class) {
+	if ($rating_class == "a-star-0") {
+		return 0;
+	} else if ($rating_class == "a-star-0-5") {
+		return 0.5;
+	} else if ($rating_class == "a-star-1") {
+		return 1;
+	} else if ($rating_class == "a-star-1-5") {
+		return 1.5;
+	} else if ($rating_class == "a-star-2") {
+		return 2;
+	} else if ($rating_class == "a-star-2-5") {
+		return 2.5;
+	} else if ($rating_class == "a-star-3") {
+		return 3;
+	} else if ($rating_class == "a-star-3-5") {
+		return 3.5;
+	} else if ($rating_class == "a-star-4") {
+		return 4;
+	} else if ($rating_class == "a-star-4-5") {
+		return 4.5;
+	} else if ($rating_class == "a-star-5") {
+		return 5;
+	} else {
+		return 0;
+	}
 }
 
 //?format=json
