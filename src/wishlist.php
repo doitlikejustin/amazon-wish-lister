@@ -9,7 +9,7 @@
  * Author: Justin Scarpetti
  * 
  */
-error_reporting(0);
+// error_reporting(0);
 set_time_limit(60);
 require_once('phpquery.php');
 
@@ -150,12 +150,9 @@ else
 	}
 }
 
-
-//format the xml
+//format the xml (old style)
 function xml_ecode($array) {
-
 	$xml = '';
-
 	if (is_array($array) || is_object($array)) {
 		foreach ($array as $key=>$value) {
 			if (is_numeric($key)) {
@@ -166,8 +163,28 @@ function xml_ecode($array) {
 			$xml .= '<' . $key . '>' . xml_ecode($value) . '</' . $key . '>';
 		}
 	} else { $xml = htmlspecialchars($array, ENT_QUOTES); }
-
 	return $xml;
+}
+
+//Convert an array into valid XML
+//From http://stackoverflow.com/a/5965940/1127699
+function xml_encode($data, &$xml_data) {
+	foreach( $data as $key => $value ) 
+	{
+		if( is_array($value) ) 
+		{
+			if( is_numeric($key) )
+			{
+				$key = 'item'.$key; //Elements can't be purely numeric
+			}
+			$subnode = $xml_data->addChild($key);
+			xml_encode($value, $subnode);
+		} else {
+			$xml_data->addChild("$key",htmlspecialchars("$value"));
+		}
+	}
+
+	return $xml_data->asXML();
 }
 
 //Make sure the text is prepared for use on the web.
@@ -184,6 +201,10 @@ if($_REQUEST['format'] == 'json') {
 elseif($_REQUEST['format'] == 'xml') { 
 	header('Content-Type: text/xml; charset=utf-8');
 	echo xml_ecode($array); 
+}
+elseif($_REQUEST['format'] == 'XML') { 
+	header('Content-Type: text/xml; charset=utf-8');
+	echo xml_encode($array, new SimpleXMLElement('<?xml version="1.0"?><data></data>')); 
 }
 elseif($_REQUEST['format'] == 'array') { 
 	header('Content-Type: text/html; charset=utf-8');

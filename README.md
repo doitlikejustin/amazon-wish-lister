@@ -49,12 +49,12 @@ The following stores currently do not offer wishlists: `com.au`, `com.mx`, `nl`.
 `?id=37XI10RRD17X2`
 
 ### Reveal (What to get)
-`?reveal=unpurchased`  
+`?reveal=unpurchased` (Default)  
 `?reveal=all`  
 `?reveal=purchased`
 
 ### Sort
-`?sort=date`  
+`?sort=date` (Default)  
 `?sort=priority`  
 `?sort=title`  
 `?sort=price-low (low to high)`  
@@ -62,9 +62,10 @@ The following stores currently do not offer wishlists: `com.au`, `com.mx`, `nl`.
 `?sort=updated`
 
 ### Output Format
-`?format=json`  
-`?format=xml`  
-`?format=array`
+`?format=json` Valid JSON (Default).  
+`?format=xml` Invalid XML (included for compatibility reasons).  
+`?format=XML` Valid XML.  
+`?format=array` a PHP array.  
 
 ### Example
 `wishlist.php?tld=com&id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
@@ -81,7 +82,7 @@ Below is an exmaple if you had http://amzn.com/B0002FTH66 on your wishlist (item
             "link": "http://www.amazon.com/Scotch-Sealing-Tape-Dispenser-H180/dp/B0002FTH66/ref=wl_it_dp_v_nS_nC/185-8110132-3235609?ie=UTF8&colid=3DR0P4HP87IIJ&coliid=I19JS64ZHWBA5M",
             "old-price": "$24.09",
             "new-price": "$19.99",
-            "date-added": "Added June 7, 2012",
+            "date-added": "June 7, 2012",
             "priority": "low",
             "rating": "4.7 out of 5 stars",
             "total-ratings": "63",
