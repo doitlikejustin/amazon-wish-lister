@@ -18,6 +18,13 @@ require_once('phpquery.php');
 if(isset($_GET['id'])) $amazon_id = $_GET['id'];
 else $amazon_id = '37XI10RRD17X2';
 
+//?tld=AMAZON_COUNTRY
+//Set the regional variant of Amazon to use.  e.g `?tld=co.uk` or `?tld=de` or ?tld=com`. Defaults to `com`
+//Tested with: `ca`, `com`, `com.br`, `co.jp`, `co.uk`, `de`, `fr`, `in`, `it`
+//Currently no wishlists available for: `com.au`, `com.mx`, `es`, `nl` 
+if(isset($_GET['tld'])) $amazon_country = $_GET['tld'];
+else $amazon_country = 'com';
+
 //?reveal=unpurchased
 //checks what to reveal (unpurchased, all, or purchased)... defaults to unpurchased
 if($_GET['reveal'] == 'unpurchased') $reveal = 'reveal=unpurchased';
@@ -35,7 +42,7 @@ elseif($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
 elseif($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
 else $sort = 'sort=date-added';
 
-$baseurl = 'http://www.amazon.com';
+$baseurl = 'http://www.amazon.' . $amazon_country;
 $content = phpQuery::newDocumentFile("$baseurl/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
 $i = 0;
 
