@@ -42,6 +42,11 @@ elseif($_GET['sort'] == 'price-high') $sort = 'sort=universal-price-desc';
 elseif($_GET['sort'] == 'updated') $sort = 'sort=last-updated';
 else $sort = 'sort=date-added';
 
+//?tag=affiliate-tag
+//Set the affiliate tag - usually ends `-21`
+if(isset($_GET['tag'])) $affiliate_tag = $_GET['tag'];
+else $affiliate_tag = '';
+
 $baseurl = 'http://www.amazon.' . $amazon_country;
 $content = phpQuery::newDocumentFile("$baseurl/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard");
 $i = 0;
@@ -107,6 +112,7 @@ else
 						$array[$i]['page'] = $page_num;
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
 						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
+						$array[$i]['affiliate-url'] = get_affiliate_link($array[$i]['ASIN']);
 						
 						$i++;
 					}
@@ -145,6 +151,7 @@ else
 						$array[$i]['page'] = $page_num;
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
 						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
+						$array[$i]['affiliate-url'] = get_affiliate_link($array[$i]['ASIN']);
 						
 						$i++;
 					}
@@ -236,6 +243,28 @@ function get_large_ssl_image($image_url) {
 	$largeSSLImage = str_replace("_.jpg", '0_.jpg', $image_url);
 
 	return $largeSSLImage;
+}
+
+function get_affiliate_link($AISN) {
+
+	/*
+		According to https://affiliate-program.amazon.co.uk/gp/associates/help/t5/a21
+
+		> So if you need to build a simple text link to a specific item on Amazon.co.uk, here is the link format you need to use:
+		http://www.amazon.co.uk/dp/ASIN/ref=nosim?tag=YOURASSOCIATEID
+
+		e.g. http://www.amazon.co.uk/dp/B00U7EXH72/ref=nosim?tag=shkspr-21
+
+		Is this the same for all countries?
+
+		Your Associate ID only workds with one country
+		https://affiliate-program.amazon.co.uk/gp/associates/help/t22/a13%3Fie%3DUTF8%26pf_rd_i%3Dassoc_he..
+	*/
+
+	global $baseurl, $affiliate_tag;
+	$affiliateURL = $baseurl . "/dp/" . $AISN . "/ref=nosim?tag=" . $affiliate_tag;
+
+	return $affiliateURL;
 }
 
 //?format=json
