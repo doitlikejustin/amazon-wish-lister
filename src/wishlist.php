@@ -94,15 +94,15 @@ else
 					{	
 						//$array[$i]['array'] = pq($item)->html();
 						$array[$i]['num'] = $i + 1;
-						$array[$i]['name'] = htmlentities(pq($item)->find('span.productTitle strong a')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE);
+						$array[$i]['name'] = text_prepare(pq($item)->find('span.productTitle strong a')->html());
 						$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
 						$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
-						$array[$i]['new-price'] = pq($item)->find('span.wlPriceBold strong')->html();
-						$array[$i]['date-added'] = str_replace('Added', '', pq($item)->find('span.commentBlock nobr')->html());
+						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"]')->html());
+						$array[$i]['date-added'] = text_prepare(str_replace('Added', '', pq($item)->find('span.commentBlock nobr')->html()));
 						$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
 						$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();
 						$array[$i]['total-ratings'] = pq($item)->find('span.crAvgStars a:nth-child(2)')->html();
-						$array[$i]['comment'] = pq($item)->find('span.commentValueText')->html();
+						$array[$i]['comment'] = text_prepare(pq($item)->find('span.commentValueText')->html());
 						$array[$i]['picture'] = pq($item)->find('td.productImage a img')->attr('src');
 						$array[$i]['page'] = $page_num;
 						
@@ -119,7 +119,7 @@ else
 				//loop through items
 				foreach($items as $item)
 				{
-					$name = trim(htmlentities(pq($item)->find('a[id^="itemName_"]')->html(), ENT_COMPAT|ENT_HTML401, 'UTF-8', FALSE));
+					$name = htmlentities(trim(pq($item)->find('a[id^="itemName_"]')->html()));
 					$link = pq($item)->find('a[id^="itemName_"]')->attr('href');
 					
 					if(!empty($name) && !empty($link))
@@ -133,12 +133,12 @@ else
 						$array[$i]['name'] = $name;
 						$array[$i]['link'] = $baseurl . $link;
 						$array[$i]['old-price'] = 'N/A';
-						$array[$i]['new-price'] = trim(pq($item)->find('div.a-spacing-small div.a-row span.a-size-medium.a-color-price')->html());
-						$array[$i]['date-added'] = trim(str_replace('Added', '', pq($item)->find('div[id^="itemAction_"] .a-size-small')->html()));
-						$array[$i]['priority'] = trim(pq($item)->find('span[id^="itemPriorityLabel_"]')->html());
+						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"]')->html());
+						$array[$i]['date-added'] = text_prepare(str_replace('Added', '', pq($item)->find('div[id^="itemAction_"] .a-size-small')->html()));
+						$array[$i]['priority'] = text_prepare(pq($item)->find('span[id^="itemPriorityLabel_"]')->html());
 						$array[$i]['rating'] = 'N/A';
 						$array[$i]['total-ratings'] = $total_ratings;
-						$array[$i]['comment'] = trim(pq($item)->find('span[id^="itemComment_"]')->html());
+						$array[$i]['comment'] = text_prepare((pq($item)->find('span[id^="itemComment_"]')->html()));
 						$array[$i]['picture'] = pq($item)->find('div[id^="itemImage_"] img')->attr('src');
 						$array[$i]['page'] = $page_num;
 						
@@ -170,11 +170,26 @@ function xml_ecode($array) {
 	return $xml;
 }
 
+//Make sure the text is prepared for use on the web.
+function text_prepare($text) {
+	return trim($text);
+}
+
 //?format=json
 //format the wishlist (json, xml, or php array object) defaults to json
-if($_REQUEST['format'] == 'json') { echo json_encode($array); }
-elseif($_REQUEST['format'] == 'xml') { echo xml_ecode($array); }
-elseif($_REQUEST['format'] == 'array') { print_r($array); }
-else { echo json_encode($array); }
-
-?>
+if($_REQUEST['format'] == 'json') { 
+	header('Content-Type: application/json; charset=utf-8');
+	echo json_encode($array); 
+}
+elseif($_REQUEST['format'] == 'xml') { 
+	header('Content-Type: text/xml; charset=utf-8');
+	echo xml_ecode($array); 
+}
+elseif($_REQUEST['format'] == 'array') { 
+	header('Content-Type: text/html; charset=utf-8');
+	print_r($array); 
+}
+else { 
+	header('Content-Type: application/json; charset=utf-8');
+	echo json_encode($array); 
+}
