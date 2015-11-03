@@ -106,6 +106,7 @@ else
 						$array[$i]['picture'] = pq($item)->find('td.productImage a img')->attr('src');
 						$array[$i]['page'] = $page_num;
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
+						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
 						
 						$i++;
 					}
@@ -143,6 +144,7 @@ else
 						$array[$i]['picture'] = pq($item)->find('div[id^="itemImage_"] img')->attr('src');
 						$array[$i]['page'] = $page_num;
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
+						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
 						
 						$i++;
 					}
@@ -218,6 +220,22 @@ function get_ASIN($url) {
 	$ASIN = substr($ASIN, 0, 10);
 
 	return $ASIN;
+}
+
+function get_large_ssl_image($image_url) {
+	/*
+		Change	
+			http://ecx.images-amazon.com/images/I/41kWB4Z4PTL._SL250_.jpg
+		To
+			https://images-eu.ssl-images-amazon.com/images/I/41kWB4Z4PTL._SL2500_.jpg
+
+		Image URLs are always .com for some reason.
+	*/
+
+	$largeSSLImage = str_replace("http://ecx.images-amazon.com", 'https://images-eu.ssl-images-amazon.com', $image_url);
+	$largeSSLImage = str_replace("_.jpg", '0_.jpg', $image_url);
+
+	return $largeSSLImage;
 }
 
 //?format=json

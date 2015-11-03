@@ -89,7 +89,8 @@ Below is an exmaple if you had http://amzn.com/B0002FTH66 on your wishlist (item
             "comment": "I like taping stuff",
             "picture": "http://ecx.images-amazon.com/images/I/41BKbZu836L._SL500_SL135_.jpg",
             "page": 2,
-            "AISN": "B0002FTH66"
+            "AISN": "B0002FTH66",
+            "large-ssl-image": "https://images-eu.ssl-images-amazon.com/images/I/41BKbZu836L._SL500_SL1350_.jpg"
         }
     ]
 
