@@ -66,9 +66,14 @@ The following stores currently do not offer wishlists: `com.au`, `com.mx`, `nl`.
 `?format=xml` Invalid XML (included for compatibility reasons).  
 `?format=XML` Valid XML.  
 `?format=array` a PHP array.  
+`?format=rss` an RSS feed.  You may wish to customise the fields it returns.  
+
+## Amazon Associate / Affiliate tag
+`?tag=affiliate-tag`  
 
 ### Example
-`wishlist.php?tld=com&id=37XI10RRD17X2&reveal=all&sort=priority&format=json`
+`wishlist.php?id=37XI10RRD17X2&reveal=all&sort=priority&format=json`  
+`wishlist.php?tld=co.uk&id=13GFCFR2B2IX4&tag=shkspr-21`  
 
 What it returns
 ===============
@@ -88,7 +93,10 @@ Below is an exmaple if you had http://amzn.com/B0002FTH66 on your wishlist (item
             "total-ratings": "63",
             "comment": "I like taping stuff",
             "picture": "http://ecx.images-amazon.com/images/I/41BKbZu836L._SL500_SL135_.jpg",
-            "page": 2
+            "page": 2,
+            "AISN": "B0002FTH66",
+            "large-ssl-image": "https://images-eu.ssl-images-amazon.com/images/I/41BKbZu836L._SL500_SL1350_.jpg",
+            "affiliate-url": "http://www.amazon.com/dp/B0002FTH66/ref=nosim?tag=yourid-21"
         }
     ]
 
