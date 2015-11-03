@@ -66,6 +66,7 @@ The following stores currently do not offer wishlists: `com.au`, `com.mx`, `nl`.
 `?format=xml` Invalid XML (included for compatibility reasons).  
 `?format=XML` Valid XML.  
 `?format=array` a PHP array.  
+`?format=rss` an RSS feed.  You may wish to customise the fields it returns.  
 
 ## Amazon Associate / Affiliate tag
 `?tag=affiliate-tag`  

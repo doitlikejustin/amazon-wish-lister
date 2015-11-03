@@ -198,6 +198,53 @@ function xml_encode($data, &$xml_data) {
 	return $xml_data->asXML();
 }
 
+function rss_encode($data) {
+
+	global $baseurl;
+
+	//	Most recent item
+	//	Should really be RFC-822
+	$pubDate = $data[0]['date-added'];
+
+	$link = htmlspecialchars("{$baseurl}/registry/wishlist/{$amazon_id}?{$reveal}&{$sort}&layout=standard");
+
+	$rss = '<?xml version="1.0" encoding="UTF-8" ?>
+			<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+				<channel>
+					<title>Amazon Wishlist</title>
+					<description></description>
+					<link>'.$link.'</link>
+					<language>en-gb</language>
+					<pubDate>'.$pubDate.'</pubDate>';
+
+	foreach( $data as $key => $value ) 
+	{
+		if( is_array($value) ) 
+		{
+			$rss .= '<item>
+						<title>'.$value['comment'].' '.$value['new-price'] .'</title>
+						<link>'.$value['affiliate-url'].'</link>
+						<description>
+							<![CDATA[
+								<a href="'.$value['affiliate-url'].'">'.
+									html_entity_decode($value['name']).'
+									<br/>
+									<img src="'.$value['large-ssl-image'].'"/>
+								</a>
+							]]>
+						</description>
+						<pubDate>'.$value['date-added'].'</pubDate>
+						<guid>'.$value['affiliate-url'].'</guid>
+					</item>';
+		}
+	}
+
+	$rss .= '</channel>
+			</rss>';
+
+	return $rss;
+}
+
 //Make sure the text is prepared for use on the web.
 function text_prepare($text) {
 	return trim($text);
@@ -284,6 +331,10 @@ elseif($_REQUEST['format'] == 'XML') {
 elseif($_REQUEST['format'] == 'array') { 
 	header('Content-Type: text/html; charset=utf-8');
 	print_r($array); 
+}
+elseif($_REQUEST['format'] == 'rss') { 
+	header('Content-Type: application/rss+xml; charset=utf-8');
+	echo rss_encode($array); 
 }
 else { 
 	header('Content-Type: application/json; charset=utf-8');
