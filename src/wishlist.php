@@ -287,7 +287,7 @@ function get_large_ssl_image($image_url) {
 	*/
 
 	$largeSSLImage = str_replace("http://ecx.images-amazon.com", 'https://images-eu.ssl-images-amazon.com', $image_url);
-	$largeSSLImage = str_replace("_.jpg", '0_.jpg', $image_url);
+	$largeSSLImage = str_replace("_.jpg", '0_.jpg', $largeSSLImage);
 
 	return $largeSSLImage;
 }
