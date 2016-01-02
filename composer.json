@@ -1,0 +1,11 @@
+{
+    "name": "ethanclevenger91/amazon-wish-lister",
+    "description": "\u001b[2~Retrieve Amazon Wishlist and output to JSON, XML, or PHP Array Object http://www.justinscarpetti.com/portfolio/amazon-wish-lister/",
+    "authors": [
+        {
+            "name": "Justin Scarpetti",
+            "homepage": "http://www.justinscarpetti.com/"
+        }
+    ],
+    "require": {}
+}
