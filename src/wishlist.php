@@ -5,12 +5,12 @@
  *
  * URL: http://www.justinscarpetti.com/projects/amazon-wish-lister/
  * URL: https://github.com/doitlikejustin/amazon-wish-lister
- * 
+ *
  * Author: Justin Scarpetti
- * 
+ *
  */
-// error_reporting(0);
-set_time_limit(60);
+error_reporting(E_ERROR);
+set_time_limit(300);
 require_once('phpquery.php');
 
 //?id=YOUR_AMAZON_ID
@@ -21,7 +21,7 @@ else $amazon_id = '37XI10RRD17X2';
 //?tld=AMAZON_COUNTRY
 //Set the regional variant of Amazon to use.  e.g `?tld=co.uk` or `?tld=de` or ?tld=com`. Defaults to `com`
 //Tested with: `ca`, `com`, `com.br`, `co.jp`, `co.uk`, `de`, `fr`, `in`, `it`
-//Currently no wishlists available for: `com.au`, `com.mx`, `es`, `nl` 
+//Currently no wishlists available for: `com.au`, `com.mx`, `es`, `nl`
 if(isset($_GET['tld'])) $amazon_country = $_GET['tld'];
 else $amazon_country = 'com';
 
@@ -69,14 +69,14 @@ else
 	{
 		$pages = count(pq('#wishlistPagination li[data-action="pag-trigger"]'));
 	}
-	
+
 	//if no "$pages" then only 1 page exists
 	if(empty($pages)) $pages=1;
-	
+
 	for($page_num=1; $page_num<=$pages; $page_num++)
 	{
 		$contents = phpQuery::newDocumentFile("$baseurl/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard&page=$page_num");
-		
+
 		if($contents == '')
 		{
 			echo('ERROR');
@@ -85,18 +85,18 @@ else
 		else
 		{
 			//get all items
-			$items = pq('tbody.itemWrapper'); 
-			
+			$items = pq('tbody.itemWrapper');
+
 			//if items exist (the let's use the old Amazon wishlist
 			if($items->html())
 			{
 				//loop through items
 				foreach($items as $item)
 				{
-					$check_if_regular = pq($item)->find('span.commentBlock nobr');	
-					
+					$check_if_regular = pq($item)->find('span.commentBlock nobr');
+
 					if($check_if_regular != '')
-					{	
+					{
 						//$array[$i]['array'] = pq($item)->html();
 						$array[$i]['num'] = $i + 1;
 						$array[$i]['name'] = text_prepare(pq($item)->find('span.productTitle strong a')->html());
@@ -113,7 +113,13 @@ else
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
 						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
 						$array[$i]['affiliate-url'] = get_affiliate_link($array[$i]['ASIN']);
-						
+						if($_GET['isbn'] == true) {
+							$array[$i]['isbn'] = get_ISBN($array[$i]['link']);
+						}
+						if($_GET['author'] == true) {
+							$array[$i]['author'] = get_Author($array[$i]['link']);
+						}
+
 						$i++;
 					}
 				}
@@ -123,19 +129,19 @@ else
 			else
 			{
 				$items = pq('.g-items-section div[id^="item_"]');
-				
+
 				//loop through items
 				foreach($items as $item)
 				{
 					$name = htmlentities(trim(pq($item)->find('a[id^="itemName_"]')->html()));
 					$link = pq($item)->find('a[id^="itemName_"]')->attr('href');
-					
+
 					if(!empty($name) && !empty($link))
 					{
 						$total_ratings = pq($item)->find('div[id^="itemInfo_"] div:a-spacing-small:first a.a-link-normal:last')->html();
 						$total_ratings = trim(str_replace(array('(', ')'), '', $total_ratings));
 						$total_ratings = is_numeric($total_ratings) ? $total_ratings : '';
-						
+
 						//$array[$i]['array'] = pq($item)->html();
 						$array[$i]['num'] = $i + 1;
 						$array[$i]['name'] = $name;
@@ -152,13 +158,32 @@ else
 						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
 						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
 						$array[$i]['affiliate-url'] = get_affiliate_link($array[$i]['ASIN']);
-						
+						if($_GET['isbn'] == true) {
+							$array[$i]['isbn'] = get_ISBN($array[$i]['link']);
+						}
+						if($_GET['author'] == true) {
+							$array[$i]['author'] = pq($item)->find('div[id^="itemInfo_"] .a-row.a-size-small:has(h5 a[id^="itemName_"])');
+							$array[$i]['author']->find('h5')->remove();
+							$array[$i]['author'] = trim(preg_replace('/\([\ \w]+\)/', '', str_replace('by', '', $array[$i]['author']->text())));
+						}
+
 						$i++;
 					}
 				}
 			}
-		}	
+		}
 	}
+}
+
+//go to product details page for isbn
+function get_ISBN($url) {
+	$productPage = phpQuery::newDocumentFile($url);
+	return trim(str_replace("ISBN-13:", "", text_prepare(pq($productPage)->find('.bucket .content li:has(b:contains("ISBN-13"))')->text())));
+}
+
+function get_Author($url) {
+	$productPage = phpQuery::newDocumentFile($url);
+	return trim(str_replace('(Author)', '', text_prepare(pq($productPage)->find('#byline .author .a-popover-preload .a-size-medium')->text())));
 }
 
 //format the xml (old style)
@@ -167,9 +192,9 @@ function xml_ecode($array) {
 	if (is_array($array) || is_object($array)) {
 		foreach ($array as $key=>$value) {
 			if (is_numeric($key)) {
-				$key = 'item'; 
+				$key = 'item';
 			}
-			
+
 			//create the xml tags
 			$xml .= '<' . $key . '>' . xml_ecode($value) . '</' . $key . '>';
 		}
@@ -180,9 +205,9 @@ function xml_ecode($array) {
 //Convert an array into valid XML
 //From http://stackoverflow.com/a/5965940/1127699
 function xml_encode($data, &$xml_data) {
-	foreach( $data as $key => $value ) 
+	foreach( $data as $key => $value )
 	{
-		if( is_array($value) ) 
+		if( is_array($value) )
 		{
 			if( is_numeric($key) )
 			{
@@ -217,9 +242,9 @@ function rss_encode($data) {
 					<language>en-gb</language>
 					<pubDate>'.$pubDate.'</pubDate>';
 
-	foreach( $data as $key => $value ) 
+	foreach( $data as $key => $value )
 	{
-		if( is_array($value) ) 
+		if( is_array($value) )
 		{
 			$rss .= '<item>
 						<title>'.$value['comment'].' '.$value['new-price'] .'</title>
@@ -278,7 +303,7 @@ function get_ASIN($url) {
 
 function get_large_ssl_image($image_url) {
 	/*
-		Change	
+		Change
 			http://ecx.images-amazon.com/images/I/41kWB4Z4PTL._SL250_.jpg
 		To
 			https://images-eu.ssl-images-amazon.com/images/I/41kWB4Z4PTL._SL2500_.jpg
@@ -316,27 +341,27 @@ function get_affiliate_link($AISN) {
 
 //?format=json
 //format the wishlist (json, xml, or php array object) defaults to json
-if($_REQUEST['format'] == 'json') { 
+if($_REQUEST['format'] == 'json') {
 	header('Content-Type: application/json; charset=utf-8');
-	echo json_encode($array); 
+	echo json_encode($array);
 }
-elseif($_REQUEST['format'] == 'xml') { 
+elseif($_REQUEST['format'] == 'xml') {
 	header('Content-Type: text/xml; charset=utf-8');
-	echo xml_ecode($array); 
+	echo xml_ecode($array);
 }
-elseif($_REQUEST['format'] == 'XML') { 
+elseif($_REQUEST['format'] == 'XML') {
 	header('Content-Type: text/xml; charset=utf-8');
-	echo xml_encode($array, new SimpleXMLElement('<?xml version="1.0"?><data></data>')); 
+	echo xml_encode($array, new SimpleXMLElement('<?xml version="1.0"?><data></data>'));
 }
-elseif($_REQUEST['format'] == 'array') { 
+elseif($_REQUEST['format'] == 'array') {
 	header('Content-Type: text/html; charset=utf-8');
-	print_r($array); 
+	print_r($array);
 }
-elseif($_REQUEST['format'] == 'rss') { 
+elseif($_REQUEST['format'] == 'rss') {
 	header('Content-Type: application/rss+xml; charset=utf-8');
-	echo rss_encode($array); 
+	echo rss_encode($array);
 }
-else { 
+else {
 	header('Content-Type: application/json; charset=utf-8');
-	echo json_encode($array); 
+	echo json_encode($array);
 }
