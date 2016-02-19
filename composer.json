@@ -1,6 +1,6 @@
 {
-    "name": "doitlikejustin/amazon-wish-lister",
-    "description": "Retrieve Amazon Wishlist and output to JSON, XML, or PHP Array Object http://www.justinscarpetti.com/portfolio/amazon-wish-lister/",
+    "name": "ethanclevenger91/amazon-wish-lister",
+    "description": "Retrieve Amazon Wishlist and output to JSON, XML, or PHP Array Object http://www.justinscarpetti.com/portfolio/amazon-wish-lister/. Forked Feb. 2016 to add Author & ISBN cap.",
     "authors": [
         {
             "name": "Justin Scarpetti",
