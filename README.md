@@ -78,7 +78,7 @@ The following stores currently do not offer wishlists: `com.au`, `com.mx`, `nl`.
 What it returns
 ===============
 
-Below is an exmaple if you had http://amzn.com/B0002FTH66 on your wishlist (item #37 on your wishlist).
+Below is an example if you had http://amzn.com/B0002FTH66 on your wishlist (item #37 on your wishlist).
 
     [
         {
