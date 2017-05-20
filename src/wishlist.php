@@ -133,8 +133,16 @@ else
 				//loop through items
 				foreach($items as $item)
 				{
+					$alternative_product = false;
 					$name = htmlentities(trim(pq($item)->find('a[id^="itemName_"]')->html()));
 					$link = pq($item)->find('a[id^="itemName_"]')->attr('href');
+					
+					if(empty($name) || empty($link)){
+						//ok, we might be dealing with a list item that isn't from amazon
+						$name = htmlentities(trim(pq($item)->find('span[id^="itemName_"]')->html()));
+						$link = pq($item)->find('a[class^="a-link-normal"]')->attr('href');
+						$alternative_product = true;
+					}
 
 					if(!empty($name) && !empty($link))
 					{
@@ -145,7 +153,7 @@ else
 						//$array[$i]['array'] = pq($item)->html();
 						$array[$i]['num'] = $i + 1;
 						$array[$i]['name'] = $name;
-						$array[$i]['link'] = $baseurl . $link;
+						$array[$i]['link'] = ($alternative_product ? $link : $baseurl . $link);
 						$array[$i]['old-price'] = 'N/A';
 						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"]')->html());
 						$array[$i]['date-added'] = text_prepare(str_replace('Added', '', pq($item)->find('div[id^="itemAction_"] .a-size-small')->html()));
@@ -155,7 +163,7 @@ else
 						$array[$i]['comment'] = text_prepare((pq($item)->find('span[id^="itemComment_"]')->html()));
 						$array[$i]['picture'] = pq($item)->find('div[id^="itemImage_"] img')->attr('src');
 						$array[$i]['page'] = $page_num;
-						$array[$i]['ASIN'] = get_ASIN($array[$i]['link']);
+						$array[$i]['ASIN'] = ($alternative_product ? $link : get_ASIN($array[$i]['link']));
 						$array[$i]['large-ssl-image'] = get_large_ssl_image($array[$i]['picture']);
 						$array[$i]['affiliate-url'] = get_affiliate_link($array[$i]['ASIN']);
 						if($_GET['isbn'] == true) {
