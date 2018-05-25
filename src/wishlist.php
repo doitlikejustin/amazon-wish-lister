@@ -102,7 +102,7 @@ else
 						$array[$i]['name'] = text_prepare(pq($item)->find('span.productTitle strong a')->html());
 						$array[$i]['link'] = pq($item)->find('span.productTitle a')->attr('href');
 						$array[$i]['old-price'] = pq($item)->find('span.strikeprice')->html();
-						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"]')->html());
+						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"] span.a-offscreen')->html());
 						$array[$i]['date-added'] = text_prepare(str_replace('Added', '', pq($item)->find('span.commentBlock nobr')->html()));
 						$array[$i]['priority'] = pq($item)->find('span.priorityValueText')->html();
 						$array[$i]['rating'] = pq($item)->find('span.asinReviewsSummary a span span')->html();
@@ -147,7 +147,7 @@ else
 						$array[$i]['name'] = $name;
 						$array[$i]['link'] = $baseurl . $link;
 						$array[$i]['old-price'] = 'N/A';
-						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"]')->html());
+						$array[$i]['new-price'] = text_prepare(pq($item)->find('span[id^="itemPrice_"] span.a-offscreen')->html());
 						$array[$i]['date-added'] = text_prepare(str_replace('Added', '', pq($item)->find('div[id^="itemAction_"] .a-size-small')->html()));
 						$array[$i]['priority'] = text_prepare(pq($item)->find('span[id^="itemPriorityLabel_"]')->html());
 						$array[$i]['rating'] = 'N/A';
