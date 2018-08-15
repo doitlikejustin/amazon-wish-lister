@@ -58,24 +58,13 @@ if($content == '')
 }
 else
 {
-	//get all pages
-	//if the count of itemWrapper is > 0 it's the old wishlist
-	if(count(pq('tbody.itemWrapper')) > 0)
-	{
-		$pages = count(pq('.pagDiv .pagPage'));
-	}
-	//it's the new wishlist
-	else
-	{
-		$pages = count(pq('#wishlistPagination li[data-action="pag-trigger"]'));
-	}
 
-	//if no "$pages" then only 1 page exists
-	if(empty($pages)) $pages=1;
 
-	for($page_num=1; $page_num<=$pages; $page_num++)
+    $lek = '';
+
+	do
 	{
-		$contents = phpQuery::newDocumentFile("$baseurl/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard&page=$page_num");
+		$contents = phpQuery::newDocumentFile("$baseurl/registry/wishlist/$amazon_id?$reveal&$sort&layout=standard&lek=$lek");
 
 		if($contents == '')
 		{
@@ -172,7 +161,12 @@ else
 				}
 			}
 		}
-	}
+
+        $next_page = pq('script[data-a-state=\'{"key":"scrollState"}\']')->html();
+        preg_match("/\"lastEvaluatedKey\":\"(.*)\"/", $next_page, $next_page_url);
+        $lek = $next_page_url[1];
+
+	} while (!$lek == '');
 }
 
 //go to product details page for isbn
